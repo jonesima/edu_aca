@@ -63,64 +63,64 @@ let currentStep = 1;
       } else {
         // go to next step (role selection -> details)
         // keep your existing nextStep() behavior too
-        function nextStep() {
-            document.getElementById(`step${currentStep}`).classList.add('hidden');
-            currentStep++;
-            
-            // Update step indicator
-            document.querySelectorAll('.step').forEach((step, index) => {
-                if (index < currentStep - 1) {
-                    step.classList.add('active');
-                } else {
-                    step.classList.remove('active');
-                }
-            });
-            
-            // Generate student ID when moving to step 3
-            if (currentStep === 3) {
-                generateStudentId();
-            }
-            
-            document.getElementById(`step${currentStep}`).classList.remove('hidden');
-        }
-        
-        function generateStudentId() {
-            // Generate a unique student ID (S + random 5-digit number + current year)
-            const randomNum = Math.floor(10000 + Math.random() * 90000);
-            const currentYear = new Date().getFullYear().toString().slice(-2);
-            const studentId = `S${randomNum}${currentYear}`;
-            
-            // Display the generated ID
-            document.getElementById('generatedStudentId').textContent = studentId;
-            document.getElementById('finalStudentId').textContent = studentId;
-            document.getElementById('generatedIdContainer').classList.remove('hidden');
-        }
-        
-        function prevStep() {
-            document.getElementById(`step${currentStep}`).classList.add('hidden');
-            currentStep--;
-            
-            // Update step indicator
-            document.querySelectorAll('.step').forEach((step, index) => {
-                if (index < currentStep - 1) {
-                    step.classList.add('active');
-                } else {
-                    step.classList.remove('active');
-                }
-            });
-            
-            document.getElementById(`step${currentStep}`).classList.remove('hidden');
-        }
-        
-        // Role selection
-        document.querySelectorAll('.role-option').forEach(option => {
-            option.addEventListener('click', function() {
-                document.querySelectorAll('.role-option').forEach(opt => {
-                    opt.classList.remove('border-indigo-500', 'bg-indigo-50');
-                });
-                this.classList.add('border-indigo-500', 'bg-indigo-50');
-            });
-        });
       }
     });
   }
+  function nextStep() {
+      document.getElementById(`step${currentStep}`).classList.add('hidden');
+      currentStep++;
+      
+      // Update step indicator
+      document.querySelectorAll('.step').forEach((step, index) => {
+          if (index < currentStep - 1) {
+              step.classList.add('active');
+          } else {
+              step.classList.remove('active');
+          }
+      });
+      
+      // Generate student ID when moving to step 3
+      if (currentStep === 3) {
+          generateStudentId();
+      }
+      
+      document.getElementById(`step${currentStep}`).classList.remove('hidden');
+  }
+  
+  function generateStudentId() {
+      // Generate a unique student ID (S + random 5-digit number + current year)
+      const randomNum = Math.floor(10000 + Math.random() * 90000);
+      const currentYear = new Date().getFullYear().toString().slice(-2);
+      const studentId = `S${randomNum}${currentYear}`;
+      
+      // Display the generated ID
+      document.getElementById('generatedStudentId').textContent = studentId;
+      document.getElementById('finalStudentId').textContent = studentId;
+      document.getElementById('generatedIdContainer').classList.remove('hidden');
+  }
+  
+  function prevStep() {
+      document.getElementById(`step${currentStep}`).classList.add('hidden');
+      currentStep--;
+      
+      // Update step indicator
+      document.querySelectorAll('.step').forEach((step, index) => {
+          if (index < currentStep - 1) {
+              step.classList.add('active');
+          } else {
+              step.classList.remove('active');
+          }
+      });
+      
+      document.getElementById(`step${currentStep}`).classList.remove('hidden');
+  }
+  
+  // Role selection
+  document.querySelectorAll('.role-option').forEach(option => {
+      option.addEventListener('click', function() {
+          document.querySelectorAll('.role-option').forEach(opt => {
+              opt.classList.remove('border-indigo-500', 'bg-indigo-50');
+          });
+          this.classList.add('border-indigo-500', 'bg-indigo-50');
+      });
+  });
