@@ -1,126 +1,134 @@
+// Initialize libraries
 AOS.init();
- feather.replace();
-        
+feather.replace();
+
 let currentStep = 1;
-        
 
-  import { createUserAndProfile } from './supabase-client.js';
+import { createUserAndProfile } from './supabase-client.js';
 
-  async function registerHandler() {
-    try {
-      // gather values from the registration form
-      const role = 'student'; // as your register flow focuses on students
-      const first_name = document.getElementById('firstName').value.trim();
-      const last_name = document.getElementById('lastName').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const department = document.getElementById('department') ? document.getElementById('department').value : null;
+// Handle registration logic
+async function registerHandler() {
+  const registerBtn = document.querySelector('#step2 button:last-of-type');
 
-      if (!email || !password) throw new Error('Please complete the form.');
+  try {
+    // Disable button & show spinner
+    registerBtn.disabled = true;
+    registerBtn.innerHTML = `
+      <svg class="animate-spin h-5 w-5 mr-2 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z"></path>
+      </svg>
+      Registering...
+    `;
 
-      // create user and profile
-      const { user, profile, signUpData } = await createUserAndProfile({
-        email,
-        password,
-        role,
-        first_name,
-        last_name,
-        department
-      });
+    const role = 'student'; // Based on your current flow
+    const first_name = document.getElementById('firstName').value.trim();
+    const last_name = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const studentId = document.getElementById('studentId').value.trim();
+    const dateOfBirth = document.getElementById('dateOfBirth').value;
 
-      // if profile was created immediately:
-      if (profile) {
-        // show success UI (step3) and display student_id
-        document.getElementById('generatedStudentId').textContent = profile.student_id || '—';
-        document.getElementById('finalStudentId').textContent = profile.student_id || '—';
-        // show step3 content (your existing step UI)
-        // ensure step3 is visible
-        document.getElementById('step2').classList.add('hidden');
-        document.getElementById('step3').classList.remove('hidden');
-      } else {
-        // email confirmation flow: instruct user to check email
-        alert('Registered. Please check your email to confirm your account before signing in.');
-      }
-
-    } catch (err) {
-      console.error(err);
-      alert(err.message || 'Registration failed');
+    // Validate inputs
+    if (!first_name || !last_name || !email || !password || !confirmPassword || !dateOfBirth) {
+      throw new Error('Please complete all required fields.');
     }
-  }
+    if (password !== confirmPassword) {
+      throw new Error('Passwords do not match.');
+    }
 
-  // wire the register button
-  document.querySelectorAll('button[onclick="nextStep()"]').forEach(btn => {
-    // replace or add a handler on the final Register button (ensure this is actually final)
-  });
-  // If you have a specific Register button ID, wire it:
-  const registerBtn = document.querySelector('button[onclick="nextStep()"]'); // update selector if needed
-  if (registerBtn) {
-    registerBtn.addEventListener('click', async (ev) => {
-      // if step2 visible, run register
-      if (!document.getElementById('step2').classList.contains('hidden')) {
-        ev.preventDefault();
-        await registerHandler();
-      } else {
-        // go to next step (role selection -> details)
-        // keep your existing nextStep() behavior too
-      }
+    // Create user and profile via Supabase
+    const { profile } = await createUserAndProfile({
+      email,
+      password,
+      role,
+      first_name,
+      last_name,
+      student_id: studentId || null,
+      date_of_birth: dateOfBirth
     });
+
+    if (!profile) {
+      throw new Error('Registration successful. Please confirm your email before signing in.');
+    }
+
+    // Move to Step 3 after successful Supabase user creation
+    document.getElementById('step2').classList.add('hidden');
+    document.getElementById('step3').classList.remove('hidden');
+    document.getElementById('finalStudentId').textContent =
+      profile.student_id || generateStudentId();
+
+    currentStep = 3;
+    updateStepIndicator();
+
+  } catch (err) {
+    console.error(err);
+    alert(err.message || 'Registration failed. Please try again.');
+  } finally {
+    // Re-enable button & restore text
+    registerBtn.disabled = false;
+    registerBtn.innerHTML = 'Register';
   }
-  function nextStep() {
-      document.getElementById(`step${currentStep}`).classList.add('hidden');
-      currentStep++;
-      
-      // Update step indicator
-      document.querySelectorAll('.step').forEach((step, index) => {
-          if (index < currentStep - 1) {
-              step.classList.add('active');
-          } else {
-              step.classList.remove('active');
-          }
-      });
-      
-      // Generate student ID when moving to step 3
-      if (currentStep === 3) {
-          generateStudentId();
-      }
-      
-      document.getElementById(`step${currentStep}`).classList.remove('hidden');
-  }
-  
-  function generateStudentId() {
-      // Generate a unique student ID (S + random 5-digit number + current year)
-      const randomNum = Math.floor(10000 + Math.random() * 90000);
-      const currentYear = new Date().getFullYear().toString().slice(-2);
-      const studentId = `S${randomNum}${currentYear}`;
-      
-      // Display the generated ID
-      document.getElementById('generatedStudentId').textContent = studentId;
-      document.getElementById('finalStudentId').textContent = studentId;
-      document.getElementById('generatedIdContainer').classList.remove('hidden');
-  }
-  
-  function prevStep() {
-      document.getElementById(`step${currentStep}`).classList.add('hidden');
-      currentStep--;
-      
-      // Update step indicator
-      document.querySelectorAll('.step').forEach((step, index) => {
-          if (index < currentStep - 1) {
-              step.classList.add('active');
-          } else {
-              step.classList.remove('active');
-          }
-      });
-      
-      document.getElementById(`step${currentStep}`).classList.remove('hidden');
-  }
-  
-  // Role selection
-  document.querySelectorAll('.role-option').forEach(option => {
-      option.addEventListener('click', function() {
-          document.querySelectorAll('.role-option').forEach(opt => {
-              opt.classList.remove('border-indigo-500', 'bg-indigo-50');
-          });
-          this.classList.add('border-indigo-500', 'bg-indigo-50');
-      });
+}
+
+// Step navigation
+function nextStep() {
+  document.getElementById(`step${currentStep}`).classList.add('hidden');
+  currentStep++;
+  updateStepIndicator();
+  document.getElementById(`step${currentStep}`).classList.remove('hidden');
+}
+
+function prevStep() {
+  document.getElementById(`step${currentStep}`).classList.add('hidden');
+  currentStep--;
+  updateStepIndicator();
+  document.getElementById(`step${currentStep}`).classList.remove('hidden');
+}
+
+function updateStepIndicator() {
+  document.querySelectorAll('.step').forEach((step, index) => {
+    if (index < currentStep) {
+      step.classList.add('active');
+    } else {
+      step.classList.remove('active');
+    }
   });
+}
+
+// Fallback student ID generator
+function generateStudentId() {
+  const randomNum = Math.floor(10000 + Math.random() * 90000);
+  const currentYear = new Date().getFullYear().toString().slice(-2);
+  return `S${randomNum}${currentYear}`;
+}
+
+// Event bindings
+document.querySelector('#step1 button')
+  ?.addEventListener('click', (e) => {
+    e.preventDefault();
+    nextStep();
+  });
+
+document.querySelector('#step2 button:last-of-type') // Register button
+  ?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    await registerHandler();
+  });
+
+document.querySelector('#step2 button:first-of-type') // Back button
+  ?.addEventListener('click', (e) => {
+    e.preventDefault();
+    prevStep();
+  });
+
+// Role selection highlight
+document.querySelectorAll('.role-option').forEach(option => {
+  option.addEventListener('click', function () {
+    document.querySelectorAll('.role-option').forEach(opt =>
+      opt.classList.remove('border-indigo-500', 'bg-indigo-50')
+    );
+    this.classList.add('border-indigo-500', 'bg-indigo-50');
+  });
+});
