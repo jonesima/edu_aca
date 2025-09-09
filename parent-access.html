@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Access - EduSphere Academy</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .parent-bg { 
+            background-image: url('http://static.photos/education/1200x630/15');
+            background-size: cover;
+            background-position: center;
+        }
+        .access-form { 
+            backdrop-filter: blur(10px); 
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .student-card { transition: all 0.3s ease; }
+        .student-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .grade-A { color: #10B981; }
+        .grade-B { color: #3B82F6; }
+        .grade-C { color: #F59E0B; }
+        .grade-D { color: #EF4444; }
+        .grade-F { color: #DC2626; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 parent-bg">
+    <div class="max-w-4xl w-full space-y-8 access-form rounded-2xl shadow-xl p-8" data-aos="fade-in">
+        <div>
+            <div class="mx-auto h-12 w-12 flex justify-center">
+                <i data-feather="users" class="h-12 w-12 text-indigo-600"></i>
+            </div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Parent Access Portal
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                View your child's academic progress and performance
+            </p>
+        </div>
+
+        <!-- Student Selection -->
+        <div id="studentSelection" class="space-y-6">
+            <div>
+                <label for="studentId" class="block text-sm font-medium text-gray-700">Student ID</label>
+                <input type="text" id="studentId" name="studentId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your child's student ID">
+            </div>
+            
+            <div>
+                <label for="accessCode" class="block text-sm font-medium text-gray-700">Access Code</label>
+                <input type="password" id="accessCode" name="accessCode" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter access code sent to your email">
+            </div>
+            
+            <div>
+                <button onclick="accessStudent()" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Access Records
+                </button>
+            </div>
+            <div id="linkedStudents"></div>
+            
+            <div class="text-center">
+                <p class="text-sm text-gray-600">
+                    Don't have an access code? 
+                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Request access</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Student Dashboard (Initially Hidden) -->
+        <div id="studentDashboard" class="hidden">
+            <!-- Student Header -->
+            <div class="bg-white rounded-lg shadow p-6 mb-6" data-aos="fade-up">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img class="h-16 w-16 rounded-full" src="http://static.photos/people/200x200/3" alt="">
+                        <div class="ml-4">
+                            <h3 class="text-lg font-medium text-gray-900">Emily Chen</h3>
+                            <p class="text-sm text-gray-500">Student ID: S10001 • Grade 10A</p>
+                            <p class="text-sm text-gray-500">Date of Birth: March 15, 2008</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-2xl font-bold text-gray-900">89.2%</p>
+                        <p class="text-sm text-gray-500">Overall Average</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white rounded-lg shadow p-4 text-center" data-aos="fade-up">
+                    <div class="p-2 rounded-full bg-green-100 text-green-500 inline-flex">
+                        <i data-feather="trending-up" class="h-6 w-6"></i>
+                    </div>
+                    <p class="mt-2 text-sm font-medium text-gray-600">Academic Performance</p>
+                    <p class="text-xl font-semibold text-gray-900">Excellent</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="p-2 rounded-full bg-blue-100 text-blue-500 inline-flex">
+                        <i data-feather="check-circle" class="h-6 w-6"></i>
+                    </div>
+                    <p class="mt-2 text-sm font-medium text-gray-600">Attendance</p>
+                    <p class="text-xl font-semibold text-gray-900">96%</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="p-2 rounded-full bg-yellow-100 text-yellow-500 inline-flex">
+                        <i data-feather="alert-circle" class="h-6 w-6"></i>
+                    </div>
+                    <p class="mt-2 text-sm font-medium text-gray-600">Assignments Due</p>
+                    <p class="text-xl font-semibold text-gray-900">3</p>
+                </div>
+            </div>
+
+            <!-- Current Grades -->
+            <div class="bg-white rounded-lg shadow mb-6" data-aos="fade-up">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">Current Grades - Term 1, 2023</h3>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teacher</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Mathematics</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mr. Davis</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">92%</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full grade-A">A</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Science</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Dr. Patel</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">88%</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full grade-A">A</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">English</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ms. Thompson</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">85%</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full grade-B">B+</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">History</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mr. Wilson</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">82%</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full grade-B">B</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teacher Comments -->
+            <div class="bg-white rounded-lg shadow mb-6" data-aos="fade-up">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">Teacher Comments</h3>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="space-y-4">
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <img class="h-8 w-8 rounded-full" src="http://static.photos/people/200x200/2" alt="">
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Mr. Davis</p>
+                                    <p class="text-xs text-gray-500">Mathematics Teacher</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-700">
+                                Emily has shown exceptional understanding of quadratic equations and consistently performs well in class tests. She actively participates in class discussions and helps her peers.
+                            </p>
+                            <p class="text-xs text-gray-400 mt-2">Posted: December 5, 2023</p>
+                        </div>
+                        
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <img class="h-8 w-8 rounded-full" src="http://static.photos/people/200x200/6" alt="">
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">Ms. Thompson</p>
+                                    <p class="text-xs text-gray-500">English Teacher</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-700">
+                                Emily's essay writing has improved significantly this term. She demonstrates strong analytical skills and creativity in her work. I encourage her to continue developing her vocabulary.
+                            </p>
+                            <p class="text-xs text-gray-400 mt-2">Posted: December 3, 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Assignments -->
+            <div class="bg-white rounded-lg shadow mb-6" data-aos="fade-up">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">Upcoming Assignments</h3>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Quadratic Equations Worksheet</p>
+                                <p class="text-xs text-gray-500">Mathematics • Due Tomorrow</p>
+                            </div>
+                            <span class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">Urgent</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Physics Lab Report</p>
+                                <p class="text-xs text-gray-500">Science • Due Dec 15</p>
+                            </div>
+                            <span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">Upcoming</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3">
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Essay: Modern Poetry</p>
+                                <p class="text-xs text-gray-500">English • Due Dec 18</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-center space-x-4">
+                <button class="px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    <i data-feather="download" class="h-4 w-4 mr-2 inline"></i>
+                    Download Report
+                </button>
+                <button class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                    <i data-feather="message-circle" class="h-4 w-4 mr-2 inline"></i>
+                    Contact Teacher
+                </button>
+            </div>
+
+            <div class="text-center mt-6">
+                <button onclick="goBack()" class="text-sm text-indigo-600 hover:text-indigo-500">
+                    ← Back to student selection
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="parent.js"></script>
+    <script type="module" src="/supabase-client.js"></script>
+</body>
+</html>
