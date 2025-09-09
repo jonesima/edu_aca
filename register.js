@@ -1,7 +1,7 @@
-        AOS.init();
-        feather.replace();
+AOS.init();
+ feather.replace();
         
-        let currentStep = 1;
+let currentStep = 1;
         
 
   import { createUserAndProfile } from './supabase-client.js';

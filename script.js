@@ -1,6 +1,6 @@
-        // Initialize Vanta.js background
-        VANTA.GLOBE({
-            el: "#vanta-bg",
+// Initialize Vanta.js background
+VANTA.GLOBE({
+ el: "#vanta-bg",
             mouseControls: true,
             touchControls: true,
             gyroControls: false,

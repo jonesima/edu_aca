@@ -1,7 +1,7 @@
-        AOS.init();
-        feather.replace();
+AOS.init();
+   feather.replace();
         
-        // Role selection functionality
+  // Role selection functionality
         document.querySelectorAll('input[name="role"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 const placeholderText = this.value === 'student' || this.value === 'parent' ? 
