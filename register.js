@@ -18,6 +18,8 @@ async function registerHandler() {
     const studentId = document.getElementById('studentId').value.trim();
     const dateOfBirth = document.getElementById('dateOfBirth').value;
 
+
+// Validation
     if (!first_name || !last_name || !email || !password || !confirmPassword || !dateOfBirth) {
       throw new Error('Please complete all required fields.');
     }
@@ -25,7 +27,8 @@ async function registerHandler() {
       throw new Error('Passwords do not match.');
     }
 
-    const { profile } = await createUserAndProfile({
+    // Create user + profile
+    const { user, profile } = await createUserAndProfile({
       email,
       password,
       role,
@@ -35,16 +38,16 @@ async function registerHandler() {
       date_of_birth: dateOfBirth
     });
 
-    // Show step 3 (success)
+    // Success → go to step 3
     document.getElementById('step2').classList.add('hidden');
     document.getElementById('step3').classList.remove('hidden');
 
-    // Update student ID display
+    // Show Student ID (use DB one or fallback generator)
     document.getElementById('finalStudentId').textContent =
       (profile && profile.student_id) || generateStudentId();
 
   } catch (err) {
-    console.error(err);
+    console.error("Registration error:", err);
     alert(err.message || 'Registration failed. Please try again.');
   }
 }
@@ -53,7 +56,6 @@ async function registerHandler() {
 function nextStep() {
   document.getElementById(`step${currentStep}`).classList.add('hidden');
   currentStep++;
-
   updateStepIndicator();
   document.getElementById(`step${currentStep}`).classList.remove('hidden');
 }
@@ -61,7 +63,6 @@ function nextStep() {
 function prevStep() {
   document.getElementById(`step${currentStep}`).classList.add('hidden');
   currentStep--;
-
   updateStepIndicator();
   document.getElementById(`step${currentStep}`).classList.remove('hidden');
 }
@@ -76,7 +77,7 @@ function updateStepIndicator() {
   });
 }
 
-// Generate a fallback student ID
+// Generate fallback Student ID
 function generateStudentId() {
   const randomNum = Math.floor(10000 + Math.random() * 90000);
   const currentYear = new Date().getFullYear().toString().slice(-2);

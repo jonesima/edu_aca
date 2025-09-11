@@ -7,9 +7,8 @@
   const SUPABASE_URL = 'https://hwedbxiiyblmpuegdofm.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3ZWRieGlpeWJsbXB1ZWdkb2ZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTczNjUzODIsImV4cCI6MjA3Mjk0MTM4Mn0.to0blDCawpyFIGtm_0ip2w76hxXt9beKIj5npjn3Ta4';
   
-  const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3ZWRieGlpeWJsbXB1ZWdkb2ZtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzM2NTM4MiwiZXhwIjoyMDcyOTQxMzgyfQ.hki7vnRfS41mPW8dTem5d9lyB7ipK0YoNNaBVEHOI0A'; // ⚠️ use service key, NOT anon key
+  export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, SERVICE_ROLE_KEY);
 
   // ---------- Utilities ----------
   export async function createUserAndProfile({email, password, role, first_name, last_name, department}) {
