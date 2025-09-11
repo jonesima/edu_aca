@@ -128,3 +128,40 @@
 
   // expose to window for easier use in inline scripts (optional)
   window.SUPABASE = { supabase, createUserAndProfile, signIn, getProfileByUserId, redirectByRole };
+
+
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+async function createAdmin() {
+  const { data: user, error } = await supabase.auth.admin.createUser({
+    email: 'admin@example.com',
+    password: 'admin123',
+    email_confirm: true
+  });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  console.log('Admin user created:', user);
+
+  // Insert into profiles table
+  const { data: profile, error: profileErr } = await supabase
+    .from('profiles')
+    .insert([{
+      user_id: user.user.id,
+      role: 'admin',
+      first_name: 'System',
+      last_name: 'Administrator',
+      email: 'admin@example.com'
+    }]);
+
+  if (profileErr) {
+    console.error(profileErr);
+  } else {
+    console.log('Admin profile created:', profile);
+  }
+}
+
+createAdmin();
