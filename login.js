@@ -44,3 +44,21 @@ if (!profile) {
   });
 }
 
+// Handle confirmation redirect
+supabase.auth.getSession().then(({ data: { session } }) => {
+  if (session) {
+    console.log("User confirmed and logged in:", session.user);
+    // Redirect based on role
+    supabase.from('profiles')
+      .select('*')
+      .eq('user_id', session.user.id)
+      .maybeSingle()
+      .then(({ data: profile }) => {
+        if (profile) {
+          redirectByRole(profile);
+        } else {
+          window.location.href = '/register.html';
+        }
+      });
+  }
+});
