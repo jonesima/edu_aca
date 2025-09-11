@@ -130,11 +130,7 @@
   window.SUPABASE = { supabase, createUserAndProfile, signIn, getProfileByUserId, redirectByRole };
 
 
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3ZWRieGlpeWJsbXB1ZWdkb2ZtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzM2NTM4MiwiZXhwIjoyMDcyOTQxMzgyfQ.hki7vnRfS41mPW8dTem5d9lyB7ipK0YoNNaBVEHOI0A'; // ⚠️ use service key, NOT anon key
-
-const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
 
 async function createAdmin() {
   const { data: user, error } = await supabase.auth.admin.createUser({
