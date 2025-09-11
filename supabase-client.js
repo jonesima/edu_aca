@@ -17,7 +17,7 @@
       password
     }, {
       // send email confirm? depends on your Supabase settings
-      // options: { emailRedirectTo: 'https://your-app/confirm' }
+      options: { emailRedirectTo: 'https://edu-aca.vercel.app/login.html' }
     });
 
     if (signUpError) throw signUpError;

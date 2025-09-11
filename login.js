@@ -18,7 +18,7 @@ AOS.init();
       const role = document.querySelector('input[name="role"]:checked').value;
       const loginInput = document.getElementById('email-address').value.trim();
       const password = document.getElementById('password').value;
-
+      
       const { user, profile } = await signIn({ loginInput, password, role });
       // redirect
       redirectByRole(profile);
@@ -27,3 +27,20 @@ AOS.init();
       alert(err.message || 'Sign in failed');
     }
   });
+
+  const { data: profile } = await supabase
+  .from('profiles')
+  .select('*')
+  .eq('user_id', user.id)
+  .maybeSingle();
+
+if (!profile) {
+  await supabase.from('profiles').insert({
+    user_id: user.id,
+    role,
+    first_name,
+    last_name,
+    email
+  });
+}
+
