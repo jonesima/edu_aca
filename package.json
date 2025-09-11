@@ -1,0 +1,31 @@
+{
+  "name": "edu_aca",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000e\u0000d\u0000u\u0000_\u0000a\u0000c\u0000a\u0000\r\u0000 \u0000",
+  "main": "admin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonesima/edu_aca.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonesima/edu_aca/issues"
+  },
+  "homepage": "https://github.com/jonesima/edu_aca#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4"
+  }
+}
+{
+  "name": "supabase-admin-setup",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.44.2"
+  }
+}

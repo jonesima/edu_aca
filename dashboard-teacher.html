@@ -1,346 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard - EduSphere Academy</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .sidebar { 
-            width: 250px; 
-            transition: all 0.3s ease;
-        }
-        .main-content {
-            margin-left: 250px;
-            transition: all 0.3s ease;
-        }
-        @media (max-width: 768px) {
-            .sidebar { 
-                transform: translateX(-100%);
-                position: fixed;
-                z-index: 40;
-                height: 100vh;
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-            }
-        }
-        .grade-input { width: 80px; }
-        .attendance-badge.present { background-color: #10B981; color: white; }
-        .attendance-badge.absent { background-color: #EF4444; color: white; }
-        .attendance-badge.late { background-color: #F59E0B; color: white; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard - EduSphere Academy</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .sidebar { width: 250px; transition: all 0.3s ease; }
+    .main-content { margin-left: 250px; transition: all 0.3s ease; }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); position: fixed; z-index: 40; height: 100vh; }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+    }
+    .grade-input { width: 80px; }
+  </style>
 </head>
 <body class="bg-gray-100">
-    <!-- Sidebar -->
-    <div class="sidebar bg-gray-900 text-white fixed inset-y-0 left-0 z-50">
-        <div class="flex items-center justify-between h-16 px-4 bg-gray-800">
-            <div class="flex items-center">
-                <i data-feather="book-open" class="h-8 w-8 text-indigo-400"></i>
-                <span class="ml-2 text-xl font-bold">EduSphere</span>
-            </div>
+
+  <!-- Hidden assets -->
+  <img id="school-logo" src="/static/logo.png" alt="School Logo" class="hidden">
+  <img id="principal-signature" src="/static/signature.png" alt="Principal Signature" class="hidden">
+
+  <!-- Sidebar -->
+  <div class="sidebar bg-gray-900 text-white fixed inset-y-0 left-0 z-50">
+    <div class="flex items-center justify-between h-16 px-4 bg-gray-800">
+      <div class="flex items-center">
+        <i data-feather="book-open" class="h-8 w-8 text-indigo-400"></i>
+        <span class="ml-2 text-xl font-bold">EduSphere</span>
+      </div>
+      <button class="md:hidden" onclick="toggleSidebar()">
+        <i data-feather="x" class="h-6 w-6"></i>
+      </button>
+    </div>
+    <nav class="mt-8 px-4">
+      <div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase">Teaching</div>
+      <a href="dashboard-teacher.html" class="flex items-center px-4 py-3 text-gray-100 bg-indigo-700 rounded-lg">
+        <i data-feather="home" class="h-5 w-5"></i>
+        <span class="ml-3">Dashboard</span>
+      </a>
+      <a href="my-classes.html" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-800 rounded-lg">
+        <i data-feather="book" class="h-5 w-5"></i>
+        <span class="ml-3">My Classes</span>
+      </a>
+      <a href="students.html" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-800 rounded-lg">
+        <i data-feather="users" class="h-5 w-5"></i>
+        <span class="ml-3">Students</span>
+      </a>
+      <a href="grading.html" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-800 rounded-lg">
+        <i data-feather="edit" class="h-5 w-5"></i>
+        <span class="ml-3">Grading</span>
+      </a>
+
+      <div class="px-4 py-2 mt-8 text-xs font-semibold text-gray-400 uppercase">Resources</div>
+      <a href="reports.html" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-800 rounded-lg">
+        <i data-feather="bar-chart-2" class="h-5 w-5"></i>
+        <span class="ml-3">Reports</span>
+      </a>
+      <a href="announcements.html" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-800 rounded-lg">
+        <i data-feather="bell" class="h-5 w-5"></i>
+        <span class="ml-3">Announcements</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="bg-white shadow">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
             <button class="md:hidden" onclick="toggleSidebar()">
-                <i data-feather="x" class="h-6 w-6"></i>
+              <i data-feather="menu" class="h-6 w-6 text-gray-500"></i>
             </button>
+            <h1 class="ml-2 md:ml-0 text-2xl font-bold text-gray-900">Teacher Dashboard</h1>
+          </div>
+          <div class="flex items-center">
+            <div class="relative mr-4">
+              <select id="class-dropdown"
+                class="pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+              </select>
+            </div>
+            <div class="flex items-center space-x-4">
+              <div class="relative">
+                <i data-feather="bell" class="h-6 w-6 text-gray-500"></i>
+              </div>
+              <div class="flex items-center">
+                <img class="h-8 w-8 rounded-full" src="http://static.photos/people/200x200/2" alt="profile">
+                <span class="ml-2 text-sm font-medium text-gray-700 teacher-name">Loading...</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <nav class="mt-8 px-4">
-            <div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Teaching</div>
-            <a href="dashboard-teacher.html" class="flex items-center px-4 py-3 text-gray-100 bg-indigo-700 rounded-lg">
-                <i data-feather="home" class="h-5 w-5"></i>
-                <span class="ml-3">Dashboard</span>
-            </a>
-            <a href="my-classes.html" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg">
-                <i data-feather="book" class="h-5 w-5"></i>
-                <span class="ml-3">My Classes</span>
-            </a>
-            <a href="students.html" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg">
-                <i data-feather="users" class="h-5 w-5"></i>
-                <span class="ml-3">Students</span>
-            </a>
-            <a href="grading.html" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg">
-                <i data-feather="edit" class="h-5 w-5"></i>
-                <span class="ml-3">Grading</span>
-            </a>
-            
-            <div class="px-4 py-2 mt-8 text-xs font-semibold text-gray-400 uppercase tracking-wider">Resources</div>
-            <a href="reports.html" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg">
-                <i data-feather="bar-chart-2" class="h-5 w-5"></i>
-                <span class="ml-3">Reports</span>
-            </a>
-            <a href="announcements.html" class="flex items-center px-4 py-3 mt-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg">
-                <i data-feather="bell" class="h-5 w-5"></i>
-                <span class="ml-3">Announcements</span>
-            </a>
-        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+      <!-- Today's Class -->
+      <div class="bg-white rounded-lg shadow mb-8" data-aos="fade-up">
+        <div class="px-6 py-5 border-b border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900" id="class-title">Today's Class</h3>
+          <p class="text-sm text-gray-500" id="class-schedule">Period schedule</p>
+        </div>
+        <div class="px-6 py-4">
+          <div class="mb-4">
+            <h4 class="text-sm font-medium text-gray-700 mb-2">Lesson Plan</h4>
+            <p class="text-sm text-gray-600" id="lesson-plan">Will load dynamically.</p>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Student</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Attendance</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Assignment Score</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="students-table" class="bg-white divide-y divide-gray-200"></tbody>
+            </table>
+          </div>
+          <div class="mt-4 flex justify-end">
+            <button id="save-changes"
+              class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="bg-white rounded-lg shadow mb-8" data-aos="fade-up">
+        <div class="px-6 py-5 border-b border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900">Quick Actions</h3>
+        </div>
+        <div class="p-6 space-y-4">
+          <div class="flex flex-wrap items-center space-x-2">
+            <select id="report-filter" class="px-2 py-1 border border-gray-300 rounded-md text-sm">
+              <option value="all">All Students</option>
+              <option value="absent">Only Absentees</option>
+              <option value="below50">Below 50%</option>
+            </select>
+            <select id="report-data-type" class="px-2 py-1 border border-gray-300 rounded-md text-sm">
+              <option value="both">Attendance + Grades</option>
+              <option value="attendance">Attendance Only</option>
+              <option value="grades">Grades Only</option>
+            </select>
+            <input type="date" id="report-start" class="px-2 py-1 border border-gray-300 rounded-md text-sm">
+            <input type="date" id="report-end" class="px-2 py-1 border border-gray-300 rounded-md text-sm">
+            <button id="generate-report"
+              class="flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+              <i data-feather="download" class="h-4 w-4 mr-2"></i>
+              Generate Report
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deadlines + Announcements -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Deadlines -->
+        <div class="bg-white rounded-lg shadow mb-8" data-aos="fade-up">
+          <div class="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
+            <h3 class="text-lg font-medium text-gray-900">Upcoming Deadlines</h3>
+            <button id="new-assignment-btn" class="px-3 py-1 text-sm rounded-md text-white bg-indigo-600">+ New</button>
+          </div>
+          <div class="px-6 py-4">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Assignment</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Class</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Due Date</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                </tr>
+              </thead>
+              <tbody id="deadlines-table" class="bg-white divide-y divide-gray-200"></tbody>
+            </table>
+          </div>
+          <div id="assignment-form" class="hidden px-6 py-4 border-t">
+            <input type="text" id="assignment-title" placeholder="Assignment Title" class="w-full mb-2 px-3 py-2 border rounded-md text-sm">
+            <input type="date" id="assignment-due" class="w-full mb-2 px-3 py-2 border rounded-md text-sm">
+            <select id="assignment-class" class="w-full mb-2 px-3 py-2 border rounded-md text-sm"></select>
+            <div class="flex justify-end">
+              <button id="save-assignment" class="px-4 py-2 text-sm rounded-md text-white bg-indigo-600">Create Assignment</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Announcements -->
+        <div class="bg-white rounded-lg shadow mb-8" data-aos="fade-up">
+          <div class="px-6 py-5 border-b flex justify-between items-center">
+            <h3 class="text-lg font-medium text-gray-900">Announcements</h3>
+            <button id="new-announcement-btn" class="px-3 py-1 text-sm rounded-md text-white bg-indigo-600">+ New</button>
+          </div>
+          <div id="announcements-list" class="px-6 py-4 space-y-4"></div>
+          <div id="announcement-form" class="hidden px-6 py-4 border-t">
+            <input type="text" id="announcement-title" placeholder="Title" class="w-full mb-2 px-3 py-2 border rounded-md text-sm">
+            <textarea id="announcement-message" placeholder="Message" class="w-full mb-2 px-3 py-2 border rounded-md text-sm"></textarea>
+            <div class="flex justify-end">
+              <button id="save-announcement" class="px-4 py-2 text-sm rounded-md text-white bg-indigo-600">Post Announcement</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Report Preview Modal -->
+  <div id="report-modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-2/3 max-h-[80vh] overflow-y-auto">
+      <div class="flex justify-between items-center p-4 border-b">
+        <h3 class="text-lg font-semibold">Report Preview</h3>
+        <button id="close-report-modal">✕</button>
+      </div>
+      <div id="report-preview-content" class="p-4"></div>
+      <div class="flex justify-end space-x-2 p-4 border-t">
+        <button id="download-csv" class="px-4 py-2 text-sm rounded-md text-white bg-indigo-600">Download CSV</button>
+        <button id="download-pdf" class="px-4 py-2 text-sm rounded-md text-white bg-green-600">Download PDF</button>
+        <button id="print-report" class="px-4 py-2 text-sm rounded-md text-white bg-gray-700">Print Report</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Header -->
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex items-center">
-                        <button class="md:hidden" onclick="toggleSidebar()">
-                            <i data-feather="menu" class="h-6 w-6 text-gray-500"></i>
-                        </button>
-                        <h1 class="ml-2 md:ml-0 text-2xl font-bold text-gray-900">Teacher Dashboard</h1>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="relative mr-4">
-                            <select class="pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
-                                <option>Mathematics - Grade 10A</option>
-                                <option>Science - Grade 10B</option>
-                                <option>Physics - Grade 11</option>
-                            </select>
-                        </div>
-                        <div class="relative ml-3">
-                            <div class="flex items-center space-x-4">
-                                <div class="relative">
-                                    <i data-feather="bell" class="h-6 w-6 text-gray-500"></i>
-                                    <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">5</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <img class="h-8 w-8 rounded-full" src="http://static.photos/people/200x200/2" alt="">
-                                    <span class="ml-2 text-sm font-medium text-gray-700">Mr. Davis</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content Area -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <!-- Quick Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white rounded-lg shadow p-6" data-aos="fade-up">
-                    <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-indigo-100 text-indigo-500">
-                            <i data-feather="users" class="h-6 w-6"></i>
-                        </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Students</p>
-                            <p class="text-2xl font-semibold text-gray-900">32</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow p-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-green-100 text-green-500">
-                            <i data-feather="check-circle" class="h-6 w-6"></i>
-                        </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Graded Assignments</p>
-                            <p class="text-2xl font-semibold text-gray-900">24/32</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow p-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-blue-100 text-blue-500">
-                            <i data-feather="trending-up" class="h-6 w-6"></i>
-                        </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Class Average</p>
-                            <p class="text-2xl font-semibold text-gray-900">82.5%</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Today's Class & Quick Actions -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <!-- Today's Class -->
-                <div class="lg:col-span-2 bg-white rounded-lg shadow" data-aos="fade-up">
-                    <div class="px-6 py-5 border-b border-gray-200">
-                        <h3 class="text-lg font-medium text-gray-900">Today's Mathematics Class - Grade 10A</h3>
-                        <p class="text-sm text-gray-500">Period 2: 10:00 AM - 11:00 AM</p>
-                    </div>
-                    <div class="px-6 py-4">
-                        <div class="mb-4">
-                            <h4 class="text-sm font-medium text-gray-700 mb-2">Lesson Plan: Quadratic Equations</h4>
-                            <p class="text-sm text-gray-600">Introduction to quadratic equations, solving using factorization method.</p>
-                        </div>
-                        
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attendance</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignment Score</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/3" alt="">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Emily Chen</div>
-                                                    <div class="text-sm text-gray-500">ID: S10001</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full attendance-badge present">Present</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <input type="number" min="0" max="100" class="grade-input px-2 py-1 border border-gray-300 rounded-md" value="92">
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <button class="text-indigo-600 hover:text-indigo-900">View</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/4" alt="">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Michael Rodriguez</div>
-                                                    <div class="text-sm text-gray-500">ID: S10002</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full attendance-badge late">Late</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <input type="number" min="0" max="100" class="grade-input px-2 py-1 border border-gray-300 rounded-md" value="85">
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <button class="text-indigo-600 hover:text-indigo-900">View</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/5" alt="">
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
-                                                    <div class="text-sm text-gray-500">ID: S10003</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full attendance-badge absent">Absent</span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <input type="number" min="0" max="100" class="grade-input px-2 py-1 border border-gray-300 rounded-md" value="-">
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <button class="text-indigo-600 hover:text-indigo-900">View</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="mt-4 flex justify-end">
-                            <button class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="bg-white rounded-lg shadow" data-aos="fade-up" data-aos-delay="100">
-                    <div class="px-6 py-5 border-b border-gray-200">
-                        <h3 class="text-lg font-medium text-gray-900">Quick Actions</h3>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <a href="record-grades.html" class="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-                            <i data-feather="edit" class="h-4 w-4 mr-2"></i>
-                            Record Grades
-                        </a>
-                        <a href="take-attendance.html" class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                            <i data-feather="check-square" class="h-4 w-4 mr-2"></i>
-                            Take Attendance
-                        </a>
-                        <a href="create-assignment.html" class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                            <i data-feather="file-plus" class="h-4 w-4 mr-2"></i>
-                            Create Assignment
-                        </a>
-                        <a href="generate-report.html" class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                            <i data-feather="download" class="h-4 w-4 mr-2"></i>
-                            Generate Report
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Upcoming Deadlines -->
-            <div class="bg-white rounded-lg shadow mb-8" data-aos="fade-up">
-                <div class="px-6 py-5 border-b border-gray-200">
-                    <h3 class="text-lg font-medium text-gray-900">Upcoming Deadlines</h3>
-                </div>
-                <div class="px-6 py-4">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignment</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Class</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Quadratic Equations Worksheet</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Grade 10A Mathematics</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Tomorrow</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Physics Lab Report</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Grade 11 Physics</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Dec 15, 2023</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">In Progress</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Term 1 Final Grades</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">All Classes</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Dec 20, 2023</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <script src="teacher.js"></script>
-    <script type="module" src="/supabase-client.js"></script>
+  <!-- PDF Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <script src="teacher.js" type="module"></script>
+  <script type="module" src="/supabase-client.js"></script>
 </body>
 </html>
