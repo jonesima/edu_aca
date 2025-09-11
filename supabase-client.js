@@ -168,3 +168,9 @@
 }
 
 createAdmin();
+
+supabase.auth.admin.createUser({
+  email: 'admin@example.com',
+  password: 'admin123',
+  email_confirm: true
+})
