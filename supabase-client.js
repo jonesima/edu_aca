@@ -60,6 +60,7 @@
     return { user: signUpData.user, profile };
   }
 
+
   export async function signIn({loginInput, password, role}) {
     // loginInput could be email or student_id (students may enter student id)
     if (role === 'student' && loginInput && loginInput.toUpperCase().startsWith('S')) {
@@ -134,7 +135,7 @@
 
 
 
-async function createAdmin() {
+  async function createAdmin() {
   const { data: user, error } = await supabase.auth.admin.createUser({
     email: 'admin@example.com',
     password: 'admin123',
