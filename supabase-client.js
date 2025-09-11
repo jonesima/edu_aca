@@ -132,21 +132,27 @@
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
+// Replace with your project values
+const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3ZWRieGlpeWJsbXB1ZWdkb2ZtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzM2NTM4MiwiZXhwIjoyMDcyOTQxMzgyfQ.hki7vnRfS41mPW8dTem5d9lyB7ipK0YoNNaBVEHOI0A'; // ⚠️ use service key, NOT anon key
+
+const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
+
 async function createAdmin() {
+  // Step 1: Create user in auth
   const { data: user, error } = await supabase.auth.admin.createUser({
     email: 'admin@example.com',
     password: 'admin123',
-    email_confirm: true
+    email_confirm: true,  // skips the confirmation step
   });
 
   if (error) {
-    console.error(error);
+    console.error('Error creating admin user:', error);
     return;
   }
 
-  console.log('Admin user created:', user);
+  console.log('Admin user created in auth.users:', user.user.id);
 
-  // Insert into profiles table
+  // Step 2: Create profile entry linked to this user
   const { data: profile, error: profileErr } = await supabase
     .from('profiles')
     .insert([{
@@ -155,10 +161,12 @@ async function createAdmin() {
       first_name: 'System',
       last_name: 'Administrator',
       email: 'admin@example.com'
-    }]);
+    }])
+    .select()
+    .single();
 
   if (profileErr) {
-    console.error(profileErr);
+    console.error('Error creating admin profile:', profileErr);
   } else {
     console.log('Admin profile created:', profile);
   }
