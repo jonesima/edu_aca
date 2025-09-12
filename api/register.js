@@ -5,17 +5,47 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3ZWRieGlpeWJsbXB1ZWdkb2ZtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzM2NTM4MiwiZXhwIjoyMDcyOTQxMzgyfQ.hki7vnRfS41mPW8dTem5d9lyB7ipK0YoNNaBVEHOI0A' // use service key, not anon
 );
 
-// Helper to generate Student/Teacher IDs
-function generateStudentId() {
-  const randomNum = Math.floor(10000 + Math.random() * 90000);
-  const currentYear = new Date().getFullYear().toString().slice(-2);
-  return `S${randomNum}${currentYear}`;
+
+// Generate unique Student ID
+async function generateUniqueStudentId() {
+  let studentId;
+  let exists = true;
+
+  while (exists) {
+    const randomNum = Math.floor(10000 + Math.random() * 90000);
+    const currentYear = new Date().getFullYear().toString().slice(-2);
+    studentId = `S${randomNum}${currentYear}`;
+
+    const { data } = await supabase
+      .from("profiles")
+      .select("student_id")
+      .eq("student_id", studentId)
+      .maybeSingle();
+
+    exists = !!data;
+  }
+  return studentId;
 }
 
-function generateTeacherId() {
-  const randomNum = Math.floor(1000 + Math.random() * 9000);
-  const currentYear = new Date().getFullYear().toString().slice(-2);
-  return `T${currentYear}${randomNum}`;
+// Generate unique Teacher ID
+async function generateUniqueTeacherId() {
+  let teacherId;
+  let exists = true;
+
+  while (exists) {
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    const currentYear = new Date().getFullYear().toString().slice(-2);
+    teacherId = `T${currentYear}${randomNum}`;
+
+    const { data } = await supabase
+      .from("profiles")
+      .select("teacher_id")
+      .eq("teacher_id", teacherId)
+      .maybeSingle();
+
+    exists = !!data;
+  }
+  return teacherId;
 }
 
 export default async function handler(req, res) {
@@ -24,54 +54,56 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { email, password, role, first_name, last_name, date_of_birth, department } = req.body;
+    const { email, password, role, first_name, last_name, date_of_birth, department } =
+      req.body;
 
     if (!email || !password || !role || !first_name || !last_name) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Create auth user
-    const { data: user, error: authError } = await supabase.auth.admin.createUser({
+    // Create user in Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
       password,
       email_confirm: true
     });
 
     if (authError) throw authError;
+    const user = authData.user;
 
-    // Generate IDs
-    let student_id = null;
-    let teacher_id = null;
+    // Generate unique IDs
+    let studentId = null;
+    let teacherId = null;
 
     if (role === "student") {
-      student_id = generateStudentId();
+      studentId = await generateUniqueStudentId();
     } else if (role === "teacher") {
-      teacher_id = generateTeacherId();
+      teacherId = await generateUniqueTeacherId();
     }
 
-    // Insert into profiles table
+    // Insert profile
     const { error: profileError } = await supabase.from("profiles").insert({
-      user_id: user.user.id,
+      user_id: user.id,
       role,
       first_name,
       last_name,
       email,
+      student_id: studentId,
+      teacher_id: teacherId,
       date_of_birth: role === "student" ? date_of_birth : null,
-      department: role === "teacher" ? department : null,
-      student_id,
-      teacher_id
+      department: role === "teacher" ? department : null
     });
 
     if (profileError) throw profileError;
 
     res.status(200).json({
       success: true,
-      message: "User registered successfully",
-      student_id,
-      teacher_id
+      user: { id: user.id, email: user.email },
+      student_id: studentId,
+      teacher_id: teacherId
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message || "Server error" });
+    console.error("Registration error:", err);
+    res.status(400).json({ error: err.message || "Registration failed" });
   }
 }

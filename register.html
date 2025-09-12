@@ -1,188 +1,348 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - EduSphere Academy</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .register-bg { 
-            background-image: url('http://static.photos/education/1200x630/23');
-            background-size: cover;
-            background-position: center;
-        }
-        .register-form { 
-            backdrop-filter: blur(10px); 
-            background: rgba(255, 255, 255, 0.95);
-        }
-        .step-indicator .step { 
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
-        }
-        .step-indicator .step.active { 
-            opacity: 1;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - EduSphere Academy</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+    body {
+      font-family: "Inter", sans-serif;
+    }
+    .register-bg {
+      background-image: url("http://static.photos/education/1200x630/23");
+      background-size: cover;
+      background-position: center;
+    }
+    .register-form {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+    }
+    .step-indicator .step {
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
+    .step-indicator .step.active {
+      opacity: 1;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 register-bg">
-    <div class="max-w-2xl w-full space-y-8 register-form rounded-2xl shadow-xl p-8" data-aos="fade-in">
-        <div>
-            <div class="mx-auto h-12 w-12 flex justify-center">
-                <i data-feather="user-plus" class="h-12 w-12 text-indigo-600"></i>
-            </div>
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Create your account
-            </h2>
-            <p class="mt-2 text-center text-sm text-gray-600">
-                Join our educational community
-            </p>
-        </div>
+<body
+  class="bg-gray-100 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 register-bg"
+>
+  <div
+    class="max-w-2xl w-full space-y-8 register-form rounded-2xl shadow-xl p-8"
+    data-aos="fade-in"
+  >
+    <!-- Header -->
+    <div>
+      <div class="mx-auto h-12 w-12 flex justify-center">
+        <i data-feather="user-plus" class="h-12 w-12 text-indigo-600"></i>
+      </div>
+      <h2
+        class="mt-6 text-center text-3xl font-extrabold text-gray-900"
+      >
+        Create your account
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Join our educational community
+      </p>
+    </div>
 
-        <!-- Step Indicator -->
-        <div class="step-indicator flex justify-center mb-8">
-            <div class="flex items-center">
-                <div class="step active flex flex-col items-center">
-                    <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center">1</div>
-                    <span class="mt-2 text-xs text-gray-600">Role</span>
-                </div>
-                <div class="w-12 h-0.5 bg-gray-300 mx-2"></div>
-                <div class="step flex flex-col items-center">
-                    <div class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center">2</div>
-                    <span class="mt-2 text-xs text-gray-600">Details</span>
-                </div>
-                <div class="w-12 h-0.5 bg-gray-300 mx-2"></div>
-                <div class="step flex flex-col items-center">
-                    <div class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center">3</div>
-                    <span class="mt-2 text-xs text-gray-600">Complete</span>
-                </div>
-            </div>
+    <!-- Step Indicator -->
+    <div class="step-indicator flex justify-center mb-8">
+      <div class="flex items-center">
+        <div class="step active flex flex-col items-center">
+          <div
+            class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center"
+          >
+            1
+          </div>
+          <span class="mt-2 text-xs text-gray-600">Role</span>
         </div>
-
-        <!-- Step 1: Role Selection -->
-        <div id="step1" class="step-content">
-            <h3 class="text-lg font-medium text-gray-900 mb-4 text-center">Select your role</h3>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="role-option flex flex-col items-center p-6 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300 transition-colors">
-                    <i data-feather="user" class="h-12 w-12 text-indigo-600 mb-3"></i>
-                    <span class="text-sm font-medium text-gray-700">Student</span>
-                    <p class="mt-2 text-xs text-gray-500 text-center">I am a student looking to access my academic records</p>
-                </div>
-                <div class="role-option flex flex-col items-center p-6 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300 transition-colors">
-                    <i data-feather="users" class="h-12 w-12 text-indigo-600 mb-3"></i>
-                    <span class="text-sm font-medium text-gray-700">Teacher</span>
-                    <p class="mt-2 text-xs text-gray-500 text-center">I am an educator managing classes and student performance</p>
-                </div>
-            </div>
-            
-            <div class="mt-6 text-center">
-                <p class="text-sm text-gray-600">
-                    Administrator and Parent accounts are created through invitation only.
-                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Contact us</a> for more information.
-                </p>
-            </div>
-            
-            <div class="mt-8 flex justify-end">
-                <button onclick="nextStep()" class="px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Next
-                </button>
-            </div>
+        <div class="w-12 h-0.5 bg-gray-300 mx-2"></div>
+        <div class="step flex flex-col items-center">
+          <div
+            class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center"
+          >
+            2
+          </div>
+          <span class="mt-2 text-xs text-gray-600">Details</span>
         </div>
+        <div class="w-12 h-0.5 bg-gray-300 mx-2"></div>
+        <div class="step flex flex-col items-center">
+          <div
+            class="w-8 h-8 rounded-full bg-gray-300 text-white flex items-center justify-center"
+          >
+            3
+          </div>
+          <span class="mt-2 text-xs text-gray-600">Complete</span>
+        </div>
+      </div>
+    </div>
 
-        <!-- Step 2: Registration Form (Dynamic for Student/Teacher) -->
-        <div id="step2" class="step-content hidden">
-            <h3 id="formTitle" class="text-lg font-medium text-gray-900 mb-6 text-center">
+    <!-- Step 1: Role Selection -->
+    <div id="step1" class="step-content">
+      <h3 class="text-lg font-medium text-gray-900 mb-4 text-center">
+        Select your role
+      </h3>
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Student Option -->
+        <div
+          class="role-option flex flex-col items-center p-6 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300 transition-colors"
+        >
+          <i data-feather="user" class="h-12 w-12 text-indigo-600 mb-3"></i>
+          <span class="text-sm font-medium text-gray-700">Student</span>
+          <p class="mt-2 text-xs text-gray-500 text-center">
+            I am a student looking to access my academic records
+          </p>
+        </div>
+        <!-- Teacher Option -->
+        <div
+          class="role-option flex flex-col items-center p-6 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-indigo-300 transition-colors"
+        >
+          <i data-feather="users" class="h-12 w-12 text-indigo-600 mb-3"></i>
+          <span class="text-sm font-medium text-gray-700">Teacher</span>
+          <p class="mt-2 text-xs text-gray-500 text-center">
+            I am an educator managing classes and student performance
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-600">
+          Administrator and Parent accounts are created through invitation only.
+          <a
+            href="#"
+            class="font-medium text-indigo-600 hover:text-indigo-500"
+            >Contact us</a
+          >
+          for more information.
+        </p>
+      </div>
+
+      <div class="mt-8 flex justify-end">
+        <button
+          onclick="nextStep()"
+          class="px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Registration Form -->
+    <div id="step2" class="step-content hidden">
+      <h3
+        id="formTitle"
+        class="text-lg font-medium text-gray-900 mb-6 text-center"
+      >
         Student Registration
-            </h3>
-  
-        <form id="registrationForm" class="space-y-4">
+      </h3>
+
+      <form id="registrationForm" class="space-y-4">
+        <!-- Name -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-        <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
-        <input type="text" id="firstName" name="firstName" required class="mt-1 block w-full border rounded-md py-2 px-3">
-        </div>
-        <div>
-        <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
-        <input type="text" id="lastName" name="lastName" required class="mt-1 block w-full border rounded-md py-2 px-3">
-        </div>
+          <div>
+            <label
+              for="firstName"
+              class="block text-sm font-medium text-gray-700"
+              >First Name</label
+            >
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              required
+              class="mt-1 block w-full border rounded-md py-2 px-3"
+            />
+          </div>
+          <div>
+            <label
+              for="lastName"
+              class="block text-sm font-medium text-gray-700"
+              >Last Name</label
+            >
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              required
+              class="mt-1 block w-full border rounded-md py-2 px-3"
+            />
+          </div>
         </div>
 
+        <!-- Email -->
         <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-        <input type="email" id="email" name="email" required class="mt-1 block w-full border rounded-md py-2 px-3">
+          <label
+            for="email"
+            class="block text-sm font-medium text-gray-700"
+            >Email Address</label
+          >
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="mt-1 block w-full border rounded-md py-2 px-3"
+          />
         </div>
 
-        <!-- Student fields -->
+        <!-- Student Fields -->
         <div id="studentFields" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-        <label for="studentId" class="block text-sm font-medium text-gray-700">Student ID (If assigned)</label>
-        <input type="text" id="studentId" name="studentId" class="mt-1 block w-full border rounded-md py-2 px-3">
+          <div>
+            <label
+              for="studentId"
+              class="block text-sm font-medium text-gray-700"
+              >Student ID (If assigned)</label
+            >
+            <input
+              type="text"
+              id="studentId"
+              name="studentId"
+              class="mt-1 block w-full border rounded-md py-2 px-3"
+            />
+          </div>
+          <div>
+            <label
+              for="dateOfBirth"
+              class="block text-sm font-medium text-gray-700"
+              >Date of Birth</label
+            >
+            <input
+              type="date"
+              id="dateOfBirth"
+              name="dateOfBirth"
+              required
+              class="mt-1 block w-full border rounded-md py-2 px-3"
+            />
+          </div>
         </div>
-        <div>
-        <label for="dateOfBirth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
-        <input type="date" id="dateOfBirth" name="dateOfBirth" required class="mt-1 block w-full border rounded-md py-2 px-3">
+
+        <!-- Teacher Fields -->
+        <div
+          id="teacherFields"
+          class="hidden grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
+          <div>
+            <label
+              for="teacherId"
+              class="block text-sm font-medium text-gray-700"
+              >Teacher ID (Auto-generated)</label
+            >
+            <input
+              type="text"
+              id="teacherId"
+              name="teacherId"
+              readonly
+              class="mt-1 block w-full border rounded-md py-2 px-3 bg-gray-100"
+            />
+          </div>
+          <div>
+            <label
+              for="department"
+              class="block text-sm font-medium text-gray-700"
+              >Department</label
+            >
+            <input
+              type="text"
+              id="department"
+              name="department"
+              required
+              class="mt-1 block w-full border rounded-md py-2 px-3"
+            />
+          </div>
+        </div>
+
+        <!-- Passwords -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label
+              for="password"
+              class="block text-sm font-medium text-gray-700"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              class="mt-1 block w-full border rounded-md py-2 px-3"
+            />
+          </div>
+          <div>
+            <label
+              for="confirmPassword"
+              class="block text-sm font-medium text-gray-700"
+              >Confirm Password</label
+            >
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+              class="mt-1 block w-full border rounded-md py-2 px-3"
+            />
+          </div>
+        </div>
+      </form>
+
+      <div class="mt-8 flex justify-between">
+        <button
+          onclick="prevStep()"
+          class="px-6 py-2 border rounded-md bg-white text-gray-700"
+        >
+          Back
+        </button>
+        <button
+          id="registerBtn"
+          class="px-6 py-2 border text-white bg-indigo-600 rounded-md"
+        >
+          Register
+        </button>
       </div>
     </div>
 
-    <!-- Teacher fields -->
-    <div id="teacherFields" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label for="teacherId" class="block text-sm font-medium text-gray-700">Teacher ID (Auto-generated)</label>
-        <input type="text" id="teacherId" name="teacherId" readonly class="mt-1 block w-full border rounded-md py-2 px-3 bg-gray-100">
+    <!-- Step 3: Completion -->
+    <div id="step3" class="step-content hidden text-center">
+      <div
+        class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100"
+      >
+        <i data-feather="check" class="h-8 w-8 text-green-600"></i>
       </div>
-      <div>
-        <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
-        <input type="text" id="department" name="department" required class="mt-1 block w-full border rounded-md py-2 px-3">
+      <h3 class="mt-4 text-lg font-medium text-gray-900">
+        Registration Successful!
+      </h3>
+      <p class="mt-2 text-sm text-gray-500" id="successMessage">
+        Your account has been created successfully. Your unique ID has been
+        generated.
+      </p>
+      <div class="mt-4 p-4 bg-green-50 rounded-lg">
+        <p class="text-sm font-medium text-gray-700">Your ID:</p>
+        <p id="finalStudentId" class="text-xl font-bold text-green-700 mt-1"></p>
+        <p class="text-xs text-gray-500 mt-2">
+          Save this ID for login and academic records access
+        </p>
+      </div>
+      <div class="mt-6">
+        <a
+          href="login.html"
+          class="px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Sign In Now
+        </a>
       </div>
     </div>
+  </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-        <input type="password" id="password" name="password" required class="mt-1 block w-full border rounded-md py-2 px-3">
-      </div>
-      <div>
-        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required class="mt-1 block w-full border rounded-md py-2 px-3">
-      </div>
-    </div>
-  </form>
-
-        <div class="mt-8 flex justify-between">
-        <button onclick="prevStep()" class="px-6 py-2 border rounded-md bg-white text-gray-700">Back</button>
-        <button id="registerBtn" class="px-6 py-2 border text-white bg-indigo-600 rounded-md">Register</button>
-        </div>
-        </div>
-
-        <!-- Step 3: Completion (Initially Hidden) -->
-        <div id="step3" class="step-content hidden text-center">
-            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100">
-                <i data-feather="check" class="h-8 w-8 text-green-600"></i>
-            </div>
-            <h3 class="mt-4 text-lg font-medium text-gray-900">Registration Successful!</h3>
-            <p class="mt-2 text-sm text-gray-500">
-                Your account has been created successfully. Your unique Student ID has been generated.
-            </p>
-            <div class="mt-4 p-4 bg-green-50 rounded-lg">
-                <p class="text-sm font-medium text-gray-700">Your Student ID:</p>
-                <p id="finalStudentId" class="text-xl font-bold text-green-700 mt-1"></p>
-                <p class="text-xs text-gray-500 mt-2">Save this ID for login and academic records access</p>
-            </div>
-            <div class="mt-6">
-                <a href="login.html" class="px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Sign In Now
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <script type="module" src="register.js"></script>
-    <script type="module" src="/supabase-client.js"></script>
+  <script type="module" src="register.js"></script>
+  <script type="module" src="/supabase-client.js"></script>
 </body>
 </html>
