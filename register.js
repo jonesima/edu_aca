@@ -146,55 +146,48 @@ function nextStep() {
 async function registerHandler() {
   try {
     const role = selectedRole;
-    const first_name = document.getElementById('firstName').value.trim();
-    const last_name = document.getElementById('lastName').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+    const first_name = document.getElementById("firstName").value.trim();
+    const last_name = document.getElementById("lastName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
     if (!first_name || !last_name || !email || !password || !confirmPassword) {
-      throw new Error('Please complete all required fields.');
+      throw new Error("Please complete all required fields.");
     }
     if (password !== confirmPassword) {
-      throw new Error('Passwords do not match.');
+      throw new Error("Passwords do not match.");
     }
 
-    let extraData = {};
+    let payload = { role, first_name, last_name, email, password };
+
     if (role === "student") {
-      extraData = {
-        student_id: document.getElementById('studentId').value.trim() || null,
-        date_of_birth: document.getElementById('dateOfBirth').value,
-      };
+      payload.date_of_birth = document.getElementById("dateOfBirth").value;
     } else {
-      extraData = {
-        teacher_id: document.getElementById('teacherId').value.trim(),
-        department: document.getElementById('department').value.trim(),
-      };
+      payload.department = document.getElementById("department").value.trim();
     }
 
-    const { user, profile } = await createUserAndProfile({
-      email,
-      password,
-      role,
-      first_name,
-      last_name,
-      ...extraData
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     });
 
-    document.getElementById('step2').classList.add('hidden');
-    document.getElementById('step3').classList.remove('hidden');
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Registration failed");
+
+    // Success
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("step3").classList.remove("hidden");
 
     if (role === "student") {
-      document.getElementById('finalStudentId').textContent =
-        (profile && profile.student_id) || generateStudentId();
+      document.getElementById("finalStudentId").textContent = data.student_id;
     } else {
-      document.getElementById('finalStudentId').textContent =
-        (profile && profile.teacher_id) || generateTeacherId();
+      document.getElementById("finalStudentId").textContent = data.teacher_id;
     }
-
   } catch (err) {
     console.error("Registration error:", err);
-    alert(err.message || 'Registration failed. Please try again.');
+    alert(err.message || "Registration failed. Please try again.");
   }
 }
 
