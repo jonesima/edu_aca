@@ -29,3 +29,16 @@
     "@supabase/supabase-js": "^2.44.2"
   }
 }
+{
+  "builds": [
+    { "src": "register.html", "use": "@vercel/static" },
+    { "src": "login.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/register.html" }
+  ]
+}
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+
