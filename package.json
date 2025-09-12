@@ -1,7 +1,7 @@
 {
   "name": "edu_aca",
   "version": "1.0.0",
-  "description": "��#\u0000 \u0000e\u0000d\u0000u\u0000_\u0000a\u0000c\u0000a\u0000\r\u0000 \u0000",
+  "description": "EduSphere Academy project",
   "main": "admin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,24 +21,3 @@
     "@supabase/supabase-js": "^2.57.4"
   }
 }
-{
-  "name": "supabase-admin-setup",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "@supabase/supabase-js": "^2.44.2"
-  }
-}
-{
-  "builds": [
-    { "src": "register.html", "use": "@vercel/static" },
-    { "src": "login.html", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/register.html" }
-  ]
-}
-{
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-}
-

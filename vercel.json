@@ -1,0 +1,12 @@
+{
+  "builds": [
+    { "src": "register.html", "use": "@vercel/static" },
+    { "src": "login.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/register.html" }
+  ],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
