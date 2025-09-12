@@ -95,65 +95,69 @@
             </div>
         </div>
 
-        <!-- Step 2: Registration Form (Initially Hidden) -->
+        <!-- Step 2: Registration Form (Dynamic for Student/Teacher) -->
         <div id="step2" class="step-content hidden">
-            <h3 class="text-lg font-medium text-gray-900 mb-6 text-center">Student Registration</h3>
-            
-            <form class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
-                        <input type="text" id="firstName" name="firstName" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
-                    <div>
-                        <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
-                </div>
-                
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                    <input type="email" id="email" name="email" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="studentId" class="block text-sm font-medium text-gray-700">Student ID (If assigned)</label>
-                        <input type="text" id="studentId" name="studentId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
-                    <div>
-                        <label for="dateOfBirth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
-                        <input type="date" id="dateOfBirth" name="dateOfBirth" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input type="password" id="password" name="password" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
-                    <div>
-                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
-                </div>
-                
-                <div class="flex items-center">
-                    <input id="terms" name="terms" type="checkbox" required class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                    <label for="terms" class="ml-2 block text-sm text-gray-900">
-                        I agree to the <a href="#" class="text-indigo-600 hover:text-indigo-500">Terms and Conditions</a> and <a href="#" class="text-indigo-600 hover:text-indigo-500">Privacy Policy</a>
-                    </label>
-                </div>
-            </form>
-            
-            <div class="mt-8 flex justify-between">
-                <button onclick="prevStep()" class="px-6 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Back
-                </button>
-                <button onclick="nextStep()" class="px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Register
-                </button>
-            </div>
+            <h3 id="formTitle" class="text-lg font-medium text-gray-900 mb-6 text-center">
+        Student Registration
+            </h3>
+  
+        <form id="registrationForm" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+        <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
+        <input type="text" id="firstName" name="firstName" required class="mt-1 block w-full border rounded-md py-2 px-3">
+        </div>
+        <div>
+        <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+        <input type="text" id="lastName" name="lastName" required class="mt-1 block w-full border rounded-md py-2 px-3">
+        </div>
+        </div>
+
+        <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+        <input type="email" id="email" name="email" required class="mt-1 block w-full border rounded-md py-2 px-3">
+        </div>
+
+        <!-- Student fields -->
+        <div id="studentFields" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+        <label for="studentId" class="block text-sm font-medium text-gray-700">Student ID (If assigned)</label>
+        <input type="text" id="studentId" name="studentId" class="mt-1 block w-full border rounded-md py-2 px-3">
+        </div>
+        <div>
+        <label for="dateOfBirth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+        <input type="date" id="dateOfBirth" name="dateOfBirth" required class="mt-1 block w-full border rounded-md py-2 px-3">
+      </div>
+    </div>
+
+    <!-- Teacher fields -->
+    <div id="teacherFields" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label for="teacherId" class="block text-sm font-medium text-gray-700">Teacher ID (Auto-generated)</label>
+        <input type="text" id="teacherId" name="teacherId" readonly class="mt-1 block w-full border rounded-md py-2 px-3 bg-gray-100">
+      </div>
+      <div>
+        <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+        <input type="text" id="department" name="department" required class="mt-1 block w-full border rounded-md py-2 px-3">
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" id="password" name="password" required class="mt-1 block w-full border rounded-md py-2 px-3">
+      </div>
+      <div>
+        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required class="mt-1 block w-full border rounded-md py-2 px-3">
+      </div>
+    </div>
+  </form>
+
+        <div class="mt-8 flex justify-between">
+        <button onclick="prevStep()" class="px-6 py-2 border rounded-md bg-white text-gray-700">Back</button>
+        <button id="registerBtn" class="px-6 py-2 border text-white bg-indigo-600 rounded-md">Register</button>
+        </div>
         </div>
 
         <!-- Step 3: Completion (Initially Hidden) -->

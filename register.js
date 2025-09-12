@@ -104,12 +104,104 @@ document.querySelector('#step2 button:first-of-type')
     prevStep();
   });
 
-// Role selection highlight
+let selectedRole = null;
+
+// Role selection
 document.querySelectorAll('.role-option').forEach(option => {
   option.addEventListener('click', function () {
     document.querySelectorAll('.role-option').forEach(opt =>
       opt.classList.remove('border-indigo-500', 'bg-indigo-50')
     );
     this.classList.add('border-indigo-500', 'bg-indigo-50');
+    selectedRole = this.querySelector('span').innerText.toLowerCase(); // "student" or "teacher"
   });
 });
+
+// Before showing step2, toggle form fields
+function nextStep() {
+  if (currentStep === 1) {
+    if (!selectedRole) {
+      alert("Please select a role before continuing.");
+      return;
+    }
+    const title = document.getElementById("formTitle");
+    if (selectedRole === "student") {
+      title.textContent = "Student Registration";
+      document.getElementById("studentFields").classList.remove("hidden");
+      document.getElementById("teacherFields").classList.add("hidden");
+    } else {
+      title.textContent = "Teacher Registration";
+      document.getElementById("studentFields").classList.add("hidden");
+      document.getElementById("teacherFields").classList.remove("hidden");
+      document.getElementById("teacherId").value = generateTeacherId();
+    }
+  }
+  document.getElementById(`step${currentStep}`).classList.add('hidden');
+  currentStep++;
+  updateStepIndicator();
+  document.getElementById(`step${currentStep}`).classList.remove('hidden');
+}
+
+// Registration handler
+async function registerHandler() {
+  try {
+    const role = selectedRole;
+    const first_name = document.getElementById('firstName').value.trim();
+    const last_name = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (!first_name || !last_name || !email || !password || !confirmPassword) {
+      throw new Error('Please complete all required fields.');
+    }
+    if (password !== confirmPassword) {
+      throw new Error('Passwords do not match.');
+    }
+
+    let extraData = {};
+    if (role === "student") {
+      extraData = {
+        student_id: document.getElementById('studentId').value.trim() || null,
+        date_of_birth: document.getElementById('dateOfBirth').value,
+      };
+    } else {
+      extraData = {
+        teacher_id: document.getElementById('teacherId').value.trim(),
+        department: document.getElementById('department').value.trim(),
+      };
+    }
+
+    const { user, profile } = await createUserAndProfile({
+      email,
+      password,
+      role,
+      first_name,
+      last_name,
+      ...extraData
+    });
+
+    document.getElementById('step2').classList.add('hidden');
+    document.getElementById('step3').classList.remove('hidden');
+
+    if (role === "student") {
+      document.getElementById('finalStudentId').textContent =
+        (profile && profile.student_id) || generateStudentId();
+    } else {
+      document.getElementById('finalStudentId').textContent =
+        (profile && profile.teacher_id) || generateTeacherId();
+    }
+
+  } catch (err) {
+    console.error("Registration error:", err);
+    alert(err.message || 'Registration failed. Please try again.');
+  }
+}
+
+// Generate Teacher ID
+function generateTeacherId() {
+  const randomNum = Math.floor(1000 + Math.random() * 9000);
+  const currentYear = new Date().getFullYear().toString().slice(-2);
+  return `T${currentYear}${randomNum}`;
+}
+
