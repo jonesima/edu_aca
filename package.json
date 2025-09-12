@@ -2,22 +2,15 @@
   "name": "edu_aca",
   "version": "1.0.0",
   "description": "EduSphere Academy project",
-  "main": "admin.js",
+  "type": "module",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node server.js",
+    "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jonesima/edu_aca.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jonesima/edu_aca/issues"
-  },
-  "homepage": "https://github.com/jonesima/edu_aca#readme",
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.4"
+    "@supabase/supabase-js": "^2.57.4",
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
   }
 }
